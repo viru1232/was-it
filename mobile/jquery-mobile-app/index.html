@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CRUD Mobile App</title>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+
+    <!-- jQuery Mobile -->
+    <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+    <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+
+<!-- HOME PAGE -->
+<div data-role="page" id="home">
+    <div data-role="header">
+        <h1>CRUD App</h1>
+    </div>
+
+    <div data-role="content">
+        <a href="#addUser" data-role="button">Add User</a>
+        <a href="#listUser" data-role="button" onclick="loadUsers()">View Users</a>
+    </div>
+</div>
+
+<!-- ADD USER -->
+<div data-role="page" id="addUser">
+    <div data-role="header">
+        <h1>Add User</h1>
+    </div>
+
+    <div data-role="content">
+        <form id="userForm">
+            <label>Name:</label>
+            <input type="text" id="name" required>
+
+            <label>Email:</label>
+            <input type="email" id="email" required>
+
+            <input type="hidden" id="editIndex">
+
+            <input type="submit" value="Save">
+        </form>
+
+        <a href="#home" data-role="button">Back</a>
+    </div>
+</div>
+
+<!-- LIST USERS -->
+<div data-role="page" id="listUser">
+    <div data-role="header">
+        <h1>User List</h1>
+    </div>
+
+    <div data-role="content">
+        <ul id="userList" data-role="listview"></ul>
+        <a href="#home" data-role="button">Back</a>
+    </div>
+</div>
+
+<script>
+let users = JSON.parse(localStorage.getItem("users")) || [];
+
+// SAVE USER (CREATE + UPDATE)
+$("#userForm").submit(function(e) {
+    e.preventDefault();
+
+    let name = $("#name").val();
+    let email = $("#email").val();
+    let index = $("#editIndex").val();
+
+    if (index === "") {
+        // CREATE
+        users.push({ name, email });
+    } else {
+        // UPDATE
+        users[index] = { name, email };
+        $("#editIndex").val("");
+    }
+
+    localStorage.setItem("users", JSON.stringify(users));
+    this.reset();
+
+    alert("User saved!");
+    $.mobile.changePage("#listUser");
+    loadUsers();
+});
+
+// LOAD USERS (READ)
+function loadUsers() {
+    users = JSON.parse(localStorage.getItem("users")) || [];
+    let list = "";
+
+    users.forEach((user, index) => {
+        list += `
+        <li>
+            <h2>${user.name}</h2>
+            <p>${user.email}</p>
+            <a href="#" onclick="editUser(${index})">Edit</a>
+            <a href="#" onclick="deleteUser(${index})">Delete</a>
+        </li>`;
+    });
+
+    $("#userList").html(list).listview("refresh");
+}
+
+// EDIT USER
+function editUser(index) {
+    let user = users[index];
+
+    $("#name").val(user.name);
+    $("#email").val(user.email);
+    $("#editIndex").val(index);
+
+    $.mobile.changePage("#addUser");
+}
+
+// DELETE USER
+function deleteUser(index) {
+    if (confirm("Delete this user?")) {
+        users.splice(index, 1);
+        localStorage.setItem("users", JSON.stringify(users));
+        loadUsers();
+    }
+}
+</script>
+
+</body>
+</html>

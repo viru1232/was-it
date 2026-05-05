@@ -1,0 +1,9 @@
+python --version
+
+pip install flash
+pip install flask
+
+vscode
+cd
+mkdir my-flask
+python main.py

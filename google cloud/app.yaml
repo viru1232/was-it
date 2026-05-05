@@ -1,0 +1,8 @@
+runtime: python39
+
+entrypoitn: python main.py
+
+handlers:
+-url: /.*
+  script: auto
+  
