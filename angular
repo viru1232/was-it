@@ -1,0 +1,144 @@
+app.ts
+
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.html',
+  styleUrl: './app.css'
+})
+export class App {
+  title = 'Registration Form';
+
+  displayname = '';
+  displayaddress = '';
+  displaycontact = '';
+  displayemail = '';
+
+  getValue(name: string, address: string, contact: string, email: string) {
+    this.displayname = name;
+    this.displayaddress = address;
+    this.displaycontact = contact;
+    this.displayemail = email;
+  }
+}
+
+
+
+
+
+
+
+
+
+app.html
+
+
+<h1>{{ title }}</h1>
+
+<input type="text" #name placeholder="Enter Your Name" name="Name"><br>
+<input type="text" #address placeholder="Enter Your Address" name="Address"><br>
+<input type="text" #contact placeholder="Enter Your Contact" name="Contact"><br>
+<input type="email" #email placeholder="Enter Your Email" name="Email"><br>
+<input type="password" #password placeholder="Enter Your Password" name="Password"><br>
+
+<button (click)="getValue(name.value, address.value, contact.value, email.value)">
+  Register
+</button>
+
+<h2>Your registered data</h2>
+
+<p>Name: {{ displayname }}</p>
+<p>Address: {{ displayaddress }}</p>
+<p>Contact: {{ displaycontact }}</p>
+<p>Email: {{ displayemail }}</p>
+
+
+
+
+app.css
+
+/* Page styling */
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to right, #74ebd5, #acb6e5);
+  margin: 0;
+  padding: 0;
+}
+
+/* Center container */
+:host {
+  display: block;
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px 25px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading */
+h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Inputs */
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+/* Input focus effect */
+input:focus {
+  border-color: #6c63ff;
+  outline: none;
+  box-shadow: 0 0 5px rgba(108, 99, 255, 0.3);
+}
+
+/* Button */
+button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 15px;
+  background: #6c63ff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* Button hover */
+button:hover {
+  background: #05cde3;
+}
+
+/* Output section */
+h2 {
+  margin-top: 25px;
+  color: #444;
+}
+
+/* Display text */
+p {
+  background: #f5f5f5;
+  padding: 8px;
+  border-radius: 5px;
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+
+
+cmt text 
+npm init -y
+npm install -g @angular/cli@latest
+node index.js
